@@ -1,0 +1,113 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+}
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+  .dark {
+    color-scheme: dark;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+}
+
+@layer components {
+  .app-shell {
+    @apply min-h-screen text-slate-900;
+    background:
+      radial-gradient(900px 380px at 12% 6%, rgba(37, 99, 235, 0.14), rgba(37, 99, 235, 0) 60%),
+      radial-gradient(900px 380px at 88% 10%, rgba(124, 58, 237, 0.12), rgba(124, 58, 237, 0) 58%),
+      radial-gradient(900px 380px at 50% 96%, rgba(13, 148, 136, 0.10), rgba(13, 148, 136, 0) 55%),
+      linear-gradient(to bottom, #f8fafc, #ffffff, #f8fafc);
+    @apply dark:text-slate-100;
+  }
+  .dark .app-shell {
+    background:
+      radial-gradient(900px 420px at 12% 6%, rgba(59, 130, 246, 0.18), rgba(59, 130, 246, 0) 60%),
+      radial-gradient(900px 420px at 88% 10%, rgba(124, 58, 237, 0.18), rgba(124, 58, 237, 0) 58%),
+      radial-gradient(900px 420px at 50% 96%, rgba(13, 148, 136, 0.14), rgba(13, 148, 136, 0) 55%),
+      linear-gradient(to bottom, #0b1220, #0b1220, #070b14);
+  }
+  .card {
+    @apply bg-white/80 backdrop-blur rounded-2xl border border-slate-200 shadow-sm;
+    @apply text-slate-900 dark:text-slate-100 dark:bg-slate-900/60 dark:border-slate-800;
+  }
+  .card-solid {
+    @apply bg-white rounded-2xl border border-slate-200 shadow-sm;
+    @apply text-slate-900 dark:text-slate-100 dark:bg-slate-950/60 dark:border-slate-800;
+  }
+  .card-header {
+    @apply px-5 py-4 border-b border-slate-200/70;
+    @apply dark:border-slate-800;
+  }
+  .card-body {
+    @apply p-5;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-4 py-2 rounded-xl text-sm font-semibold transition
+      focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/40 focus-visible:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  /* Improve default legibility for common text utilities in dark mode */
+  .dark .text-slate-900 {
+    @apply text-slate-100;
+  }
+  .dark .text-slate-800 {
+    @apply text-slate-200;
+  }
+  .dark .text-slate-700 {
+    @apply text-slate-200;
+  }
+  .dark .text-slate-600 {
+    @apply text-slate-300;
+  }
+  .dark .text-slate-500 {
+    @apply text-slate-400;
+  }
+  .btn-primary {
+    @apply btn text-white shadow-sm;
+    background-image: linear-gradient(135deg, theme(colors.accent.700), theme(colors.accent.500));
+    border: 1px solid rgba(37, 99, 235, 0.25);
+  }
+  .btn-primary:hover {
+    filter: brightness(0.98);
+  }
+  .btn-secondary {
+    @apply btn bg-white text-slate-700 border border-slate-200 hover:bg-slate-50;
+    @apply dark:bg-slate-950/40 dark:text-slate-200 dark:border-slate-800 dark:hover:bg-slate-900/60;
+  }
+  .btn-ghost {
+    @apply btn bg-transparent text-slate-700 hover:bg-slate-100;
+    @apply dark:text-slate-200 dark:hover:bg-slate-900/60;
+  }
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold border;
+  }
+  .badge-ok {
+    @apply badge border-emerald-200 text-emerald-700;
+    background-image: linear-gradient(135deg, rgba(5, 150, 105, 0.12), rgba(209, 250, 229, 0.75));
+    @apply dark:text-emerald-400 dark:border-emerald-800;
+  }
+  .badge-bad {
+    @apply badge border-red-200 text-red-700;
+    background-image: linear-gradient(135deg, rgba(220, 38, 38, 0.12), rgba(254, 226, 226, 0.8));
+    @apply dark:text-red-400 dark:border-red-800;
+  }
+  .badge-neutral {
+    @apply badge text-slate-700 border-slate-200;
+    background-image: linear-gradient(135deg, rgba(15, 23, 42, 0.05), rgba(148, 163, 184, 0.12));
+    @apply dark:text-slate-300 dark:border-slate-700;
+  }
+  .kbd {
+    @apply font-mono text-[11px] px-1.5 py-0.5 rounded-md bg-slate-100 border border-slate-200 text-slate-700;
+    @apply dark:bg-slate-900 dark:border-slate-800 dark:text-slate-200;
+  }
+}

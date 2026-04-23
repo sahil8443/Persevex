@@ -1,0 +1,154 @@
+{
+  "timestamp": "2026-04-10T05:54:45.496544",
+  "sections": {
+    "1. OCR Pipeline - Tesseract Configuration": {
+      "tesseract_executable": "C:\\Program Files\\Tesseract-OCR\\tesseract.exe",
+      "tessdata_directory": "tessdata",
+      "has_eng_traineddata": true,
+      "ocr_status": "READY",
+      "details": {
+        "description": "Validates Tesseract OCR and tessdata configuration",
+        "expected": "status = READY",
+        "actual": "READY",
+        "\u2713": true
+      }
+    },
+    "1. OCR Pipeline - Image Preprocessing": {
+      "test_image": "uploads\\Invoice_sample_from_Apex_Supplies_16bce12c.png",
+      "preprocessing_steps": [
+        "1. Grayscale conversion (cv2.cvtColor BGR->GRAY)",
+        "2. Non-local means denoising (fastNlMeansDenoising)",
+        "3. Adaptive Gaussian threshold (adaptiveThreshold GAUSSIAN_C)"
+      ],
+      "output_type": "<class 'numpy.ndarray'>",
+      "output_shape": "(1536, 1024)",
+      "output_dtype": "uint8",
+      "min_value": 0,
+      "max_value": 255,
+      "\u2713": true
+    },
+    "1. OCR Pipeline - Text Extraction": {
+      "ocr_engine": "Tesseract via pytesseract",
+      "config_params": "--psm 6",
+      "text_length": 655,
+      "first_100_chars": "Apex Supplies Ltd INVOICE\n123 Business Park, _\u2014\nMumbai, India 400001 )\nInvoice No: INV-20245\nPhone: ",
+      "\u2713": true
+    },
+    "2. Information Extraction - Structured Data": {
+      "extraction_methods": [
+        "Regex patterns (primary)",
+        "Heuristics (fallback for vendor detection)",
+        "NER (optional, spacy-based when enabled)"
+      ],
+      "extracted_fields": {
+        "invoice_number": "INV-20245",
+        "invoice_date": "15/03/2022",
+        "vendor_name": "123 Business Park, _\u2014",
+        "total_amount": 2022.0,
+        "line_items_count": 0
+      },
+      "line_items_sample": [],
+      "\u2713": true
+    },
+    "3. Rule-Based Validation Checks": {
+      "validation_rules": [
+        "Mathematical Integrity: (Qty * Unit Price) == Line Total",
+        "Total Integrity: Sum(Line Items) == Invoice Total",
+        "Date Logic: Invoice date not in future",
+        "Age Check: Invoice age vs 90-day threshold"
+      ],
+      "math_ok": true,
+      "date_ok": true,
+      "validation_passed": true,
+      "errors": [],
+      "warnings": [
+        "Invoice date is more than 90 days old."
+      ],
+      "\u2713": true
+    },
+    "4. Anomaly & Fraud Detection": {
+      "data_sources": [
+        "Duplicate matching (exact + fuzzy Levenshtein)",
+        "Vendor z-score (per-vendor or global statistical outliers)",
+        "Isolation Forest (unsupervised ML on features)"
+      ],
+      "features_used": [
+        "log_amount: log1p(total_amount)",
+        "vendor_frequency: count of vendor in history",
+        "line_item_count: number of line items"
+      ],
+      "is_anomaly": true,
+      "anomaly_reason": "duplicate",
+      "anomaly_score": 1.0,
+      "validation_flags": {
+        "ok": true,
+        "has_errors": false,
+        "has_warnings": true,
+        "errors": [],
+        "warnings": [
+          "Invoice date is more than 90 days old."
+        ],
+        "math_ok": true,
+        "date_ok": true,
+        "missing_total_amount": false,
+        "missing_invoice_number": false,
+        "missing_vendor_name": false,
+        "line_item_count": 0
+      },
+      "duplicate_flag": true,
+      "duplicate_matches": [
+        {
+          "id": 3,
+          "kind": "exact",
+          "score": null,
+          "invoice_number": "INV-20245",
+          "vendor_name": "123 Business Park, _\u2014",
+          "total_amount": 2022.0
+        },
+        {
+          "id": 4,
+          "kind": "exact",
+          "score": null,
+          "invoice_number": "INV-20245",
+          "vendor_name": "123 Business Park, _\u2014",
+          "total_amount": 2022.0
+        },
+        {
+          "id": 5,
+          "kind": "exact",
+          "score": null,
+          "invoice_number": "INV-20245",
+          "vendor_name": "123 Business Park, _\u2014",
+          "total_amount": 2022.0
+        }
+      ],
+      "zscore": 0.5000000000000001,
+      "ml_anomaly_score": 0.5307839132340099,
+      "final_risk_label": "High",
+      "\u2713": true
+    },
+    "5. Database Persistence": {
+      "database": "sqlite:///./data/invoices.db",
+      "table": "invoices",
+      "total_records": 5,
+      "last_invoice_id": 5,
+      "last_invoice_details": {
+        "invoice_number": "INV-20245",
+        "vendor_name": "123 Business Park, _\u2014",
+        "total_amount": 2022.0,
+        "is_anomaly": true,
+        "anomaly_reason": "duplicate",
+        "created_at": "2026-04-10T05:46:45.969804"
+      },
+      "\u2713": true
+    },
+    "6. Model Artifacts": {
+      "artifacts_path": "artifacts",
+      "contents": {
+        "fraud_classifier.joblib": "0.00 MB",
+        "isolation_forest.joblib": "1.85 MB"
+      },
+      "\u2713": true
+    }
+  }
+}
