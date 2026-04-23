@@ -185,7 +185,6 @@ See `backend/.env.example`:
 
 ## License
 
-MIT (demo project).
-=======
+
 # Persevex
 >>>>>>> 01e19a93afcfdd473574b04e410f660b4bf79ac0
